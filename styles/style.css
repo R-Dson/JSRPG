@@ -6,8 +6,5 @@ body
 canvas
 {
     border: solid 1px black;
-    width: 1500px;
-    height: 800px;
-    overflow: hidden;
     background-color: #3f3f3f;
 }
