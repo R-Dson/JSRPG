@@ -41,7 +41,7 @@ function loadGame() {
 
 function runGame() {
     var loadedItems = "";
-    fetch('../resources/GameJSON.json').then(function (Response) {
+    fetch('https://worldofengineering.github.io/JSRPG/resources/GameJSON.json').then(function (Response) {
         return Response.json();
     }).then(function (json) {
         // var item1 = json.Equipment.helm;
