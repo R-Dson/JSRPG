@@ -1,0 +1,116 @@
+{
+  "ItemBasic": {
+    "LevelRequirement": null,
+    "Name": null,
+    "Attack": null,
+    "Strength": null,
+    "Defence": null,
+    "multiplierx" : null,
+    "multipliery" : null, 
+    "Amount": 1,
+    "stackable": 1,
+    "Effect": ""
+  },
+  "Equipment": {
+    "helm": {
+      "LevelRequirement": 1,
+      "Name": "Leather Helmet",
+      "Attack": 2,
+      "Strength": 2,
+      "Defence": 2,
+      "multiplierx" : null,
+      "multipliery" : null, 
+      "Amount": 1,
+      "stackable": 1,
+      "Effect": ""
+    },
+    "chest": {
+      "LevelRequirement": 1,
+      "Name": "Leather Chest",
+      "Attack": 2,
+      "Strength": 2,
+      "Defence": 2,
+      "multiplierx" : null,
+      "multipliery" : null, 
+      "Amount": 1,
+      "stackable": 1,
+      "Effect": ""
+    },
+    "pants": {
+      "LevelRequirement": 1,
+      "Name": "Leather Pants",
+      "Attack": 2,
+      "Strength": 2,
+      "Defence": 2,
+      "multiplierx" : null,
+      "multipliery" : null, 
+      "Amount": 1,
+      "stackable": 1,
+      "Effect": ""
+    },
+    "weapon": {
+      "LevelRequirement": 1,
+      "Name": "Bronze Sword",
+      "Attack": 5,
+      "Strength": 5,
+      "Defence": 0,
+      "multiplierx" : null,
+      "multipliery" : null, 
+      "Amount": 1,
+      "stackable": 1,
+      "Effect": ""
+    },
+    "offhand": {
+      "LevelRequirement": 1,
+      "Name": "Leather Shield",
+      "Attack": 0,
+      "Strength": 0,
+      "Defence": 4,
+      "multiplierx" : null,
+      "multipliery" : null, 
+      "Amount": 1,
+      "stackable": 1,
+      "Effect": ""
+    }
+  },
+  "Inventory": {
+    "slot0": {
+      "Name": "Health Potion",
+      "Attack": null,
+      "Strength": null,
+      "Defence": null,
+      "multiplierx": 1,
+      "multipliery" : 1, 
+      "Amount": 1,
+      "stackable": 1,
+      "Effect": ""
+    },
+    "slot1": {
+      "Name": "Attack Potion",
+      "Attack": null,
+      "Strength": null,
+      "Defence": null,
+      "multiplierx": 1,
+      "multipliery" : 1, 
+      "Amount": 1,
+      "stackable": 1,
+      "Effect": ""
+    },
+    "slot2": {},
+    "slot3": {},
+    "slot4": {},
+    "slot5": {},
+    "slot6": {},
+    "slot7": {},
+    "slot8": {},
+    "slot9": {}
+  },
+  "PlayerStats": {
+    "Experience": 110,
+    "healthPoints": 100,
+    "Attack": 10,
+    "Strength": 10,
+    "Defence": 10,
+    "Level": 1
+  }
+}

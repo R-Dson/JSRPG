@@ -1,10 +1,75 @@
 body
 {
     margin: 0 auto;
+    background: #201F1D;
+    color: #E85A4F;
 }
 
 canvas
 {
     border: solid 1px black;
     background-color: #3f3f3f;
+    display:inline-block;
+}
+
+#menu{
+    width: 400px;
+    border: 1px solid black;
+    height: 640px;
+    display:inline-block;
+    background-color: #3f3f3f;   
+    position: fixed; 
+}
+
+.tabcontent{
+    display: none;
+}
+
+table{
+    margin: 0;
+    width: 100%;
+}
+
+#tab{
+    background-color: #201F1D;
+    color: #E85A4F;
+    border: none;
+    padding: 10px;
+    font-size: 35px;
+    float: left;
+    width: 25%;
+    border-bottom: #3f3f3f 2px solid;
+}
+td{
+    background-color: #201F1D;
+    width: calc(100%/3);
+        display: inline-block;
+    
+}
+#inventorytr{
+    width: 100%;
+}
+
+tr{
+    border-bottom: white 1px solid;
+}
+.trb{
+    background-color: #201F1D;
+    color: #E85A4F;
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    width: 50%;
+    margin: 0;
+    float: left;
+}
+#tab:hover, .trb:hover{
+    background: #2c2c2c;
+}
+
+#playerInfo{
+    display: block;
+}
+#inventorytr td{
+    background: white;
 }

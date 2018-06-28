@@ -1,16 +1,104 @@
 <!DOCTYPE>
 <html>
-    <head>
-        <title></title>
-        <link rel="stylesheet" type="text/css" href="styles/style.css">
-        <script type="text/javascript" src="scripts/GameInit.js"></script>
-    </head>
-    <body onload="startGame()">
-        <main id="main">
-            <canvas id="canvas" width="1500" height="800">
-            </canvas>
-        </main>
-        <button onclick="gamestate.pausegame">End Game</button>
-        <button onclick="returnGame()">Resume Game</button>
-    </body>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <script type="text/javascript" src="scripts/GameInit.js"></script>
+
+</head>
+
+<body onload="startGame()">
+    <main id="main">
+        <canvas id="canvas" width="960" height="640">
+        </canvas>
+        <div id="menu">
+            <div id="tabs">
+                <!-- Switch between tabs -->
+                <button id="tab" onclick="switchTab(event, 'playerInfo')">Stats</button>
+                <button id="tab" onclick="switchTab(event, 'Store')">Store</button>
+                <button id="tab" onclick="switchTab(event, 'displayGear')">Gear</button>
+                <button id="tab" onclick="switchTab(event, 'displaySave')">Save</button>
+            </div>
+            <div id="tabInfo">
+                <!-- Tab information below -->
+                <div id="playerInfo" class="tabcontent">
+                    <table cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td id="HealthPoints">Health:</td>
+                            <td id="Attack">Attack:</td>
+                            <td id="Defence">Defence:</td>
+                            <td id="Experience">Experience:</td>
+                            <td id="Level">Level:</td>
+                            <td id="Defence">Defence:</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="Store" class="tabcontent">
+                    <button class="trb" onclick="BuyHPotion()">Health Potion
+                        <br>
+                        <span style="font-size: 16px; color: rgb(230, 129, 122)">Price: 5</span>
+                    </button>
+                    <button class="trb">Attack Potion
+                        <br>
+                        <span style="font-size: 16px; color: rgb(230, 129, 122)">Price: 5</span>
+                    </button>
+                    <button class="trb">Stamina Potion
+                        <br>
+                        <span style="font-size: 16px; color: rgb(230, 129, 122)">Price: 5</span>
+                    </button>
+                    <button class="trb">Strength Potion
+                        <br>
+                        <span style="font-size: 16px; color: rgb(230, 129, 122)">Price: 5</span>
+                    </button>
+                    <button class="trb">Critical Potion
+                        <br>
+                        <span style="font-size: 16px; color: rgb(230, 129, 122)">Price: 5</span>
+                    </button>
+                    <button class="trb">Speed Potion
+                        <br>
+                        <span style="font-size: 16px; color: rgb(230, 129, 122)">Price: 5</span>
+                    </button>
+                    <button class="trb">Potion Potion
+                        <br>
+                        <span style="font-size: 16px; color: rgb(230, 129, 122)">Price: 5</span>
+                    </button>
+                </div>
+                <div id="displayGear" class="tabcontent">
+                    <p>Equipment:</p>
+                    <table cellspacing="0" cellpadding="0">
+                        <tr id="Equipment">
+                            <td id="Helm">Helmn Name</td>
+                            <td id="Chest">chest Name</td>
+                            <td id="Pants">Pants name:</td>
+                            <td id="Weapon">Weapo nname:</td>
+                            <td id="Offhand">Offhand Name:</td>
+                        </tr>
+                    </table>
+                    <p>Inventory:</p>
+                    <table cellspacing="0" cellpadding="0">
+                            <tr id="Inventory">
+                                <td id="Slot0">Placeholder Name</td>
+                                <td id="Slot1">Placeholder Name</td>
+                                <td id="Slot2">Placeholder name:</td>
+                                <td id="Slot3">Placeholder nname:</td>
+                                <td id="Slot4">Placeholder Name:</td>
+                                <td id="Slot5">Placeholder Name</td>
+                                <td id="Slot6">Placeholder Name</td>
+                                <td id="Slot7">Placeholder name:</td>
+                                <td id="Slot8">Placeholder nname:</td>
+                                <td id="Slot9">Placeholder Name:</td>
+                            </tr>
+                        </table>
+                </div>
+                <div id="displaySave" class="tabcontent">
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- <button onclick="gamestate.pausegame">End Game</button>
+    <button onclick="returnGame()">Resume Game</button> -->
+</body>
+
 </html>
