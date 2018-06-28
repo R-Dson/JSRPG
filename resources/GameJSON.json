@@ -100,7 +100,7 @@
       "Strength": null,
       "Defence": null,
       "multiplierx": 1,
-      "multipliery" : 1, 
+      "multipliery" : 0, 
       "Amount": 1,
       "stackable": 1,
       "Effect": ""
