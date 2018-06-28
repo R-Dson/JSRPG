@@ -405,7 +405,7 @@ function BuyHPotion(){
 
 function importItemImages() {
     var ctx = canvas.gameCanvas.getContext("2d");
-    itemsImage.src = "../resources/rpgitems.png";
+    itemsImage.src = "https://raw.githubusercontent.com/WorldOfEngineering/JSRPG/master/resources/rpgItems.png";
 }
 
 // Events triggers ###########################################################################################
