@@ -1,5 +1,6 @@
 {
   "ItemBasic": {
+    "Rarity": null,
     "LevelRequirement": null,
     "Name": null,
     "Attack": null,
@@ -13,6 +14,7 @@
   },
   "Equipment": {
     "helm": {
+      "Rarity": "Normal",
       "LevelRequirement": 1,
       "Name": "Leather Helmet",
       "Attack": 2,
@@ -25,6 +27,7 @@
       "Effect": ""
     },
     "chest": {
+      "Rarity": "Normal",
       "LevelRequirement": 1,
       "Name": "Leather Chest",
       "Attack": 2,
@@ -37,6 +40,7 @@
       "Effect": ""
     },
     "pants": {
+      "Rarity": "Normal",
       "LevelRequirement": 1,
       "Name": "Leather Pants",
       "Attack": 2,
@@ -49,6 +53,7 @@
       "Effect": ""
     },
     "weapon": {
+      "Rarity": "Normal",
       "LevelRequirement": 1,
       "Name": "Bronze Sword",
       "Attack": 5,
@@ -61,6 +66,7 @@
       "Effect": ""
     },
     "offhand": {
+      "Rarity": "Normal",
       "LevelRequirement": 1,
       "Name": "Leather Shield",
       "Attack": 0,
@@ -75,6 +81,7 @@
   },
   "Inventory": {
     "slot0": {
+      "Rarity": null,
       "Name": "Health Potion",
       "Attack": null,
       "Strength": null,
@@ -86,6 +93,8 @@
       "Effect": ""
     },
     "slot1": {
+
+      "Rarity": null,
       "Name": "Attack Potion",
       "Attack": null,
       "Strength": null,
@@ -106,7 +115,7 @@
     "slot9": {}
   },
   "PlayerStats": {
-    "Experience": 110,
+    "Experience": 0,
     "healthPoints": 100,
     "Attack": 10,
     "Strength": 10,
