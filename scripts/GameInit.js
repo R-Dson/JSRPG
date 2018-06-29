@@ -12,6 +12,9 @@ var Jsoninfo;
 var totalattack;
 var playerdamage;
 var npcdamage;
+var playerImage = new Image();
+var xm = 0, ym = 0, spriteTick = 0;
+var keyIsPressed = false;
 
 window.onload = function () {
     startGame();
@@ -52,7 +55,7 @@ function runGame() {
 
         var items = [json.Equipment.helm, json.Equipment.chest, json.Equipment.pants, json.Equipment.weapon, json.Equipment.offhand];
         var itemsInv = [json.Inventory.slot0, json.Inventory.slot1, json.Inventory.slot2, json.Inventory.slot3, json.Inventory.slot4, json.Inventory.slot5, json.Inventory.slot6, json.Inventory.slot7, json.Inventory.slot8, json.Inventory.slot9];
-        playerInfo = new character("Player", canvas.gameCanvas.clientWidth, canvas.gameCanvas.clientHeight, 100, 100, json.PlayerStats.Experience, json.PlayerStats.healthPoints, items, itemsInv, 4, "red", 10, 10, 10, 1);
+        playerInfo = new character("Player", canvas.gameCanvas.clientWidth, canvas.gameCanvas.clientHeight, 32, 32, json.PlayerStats.Experience, json.PlayerStats.healthPoints, items, itemsInv, 1, "red", 10, 10, 10, 1);
     });
 
     generateNPC();
@@ -106,6 +109,19 @@ function drawing() {
             }
         }
 
+    }
+
+    this.drawCharacter = function(){
+        spriteTick++;
+        var ctx = canvas.context;
+        updateCharacterSprite(spriteTick);
+        if(keyIsPressed){
+            ctx.drawImage(playerImage, 0 + xm, 32*ym, 32, 32, playerInfo.x, playerInfo.y, 32, 32);
+        }
+        else{
+            ctx.drawImage(playerImage, 32, 32 * ym, 32, 32, playerInfo.x, playerInfo.y, 32, 32);
+        }
+        
     }
 
 }
@@ -286,27 +302,59 @@ function gameUpdate() {
             if (keyState[left] && keyState[down]) {
                 playerInfo.y += playerInfo.walkSpeed;
                 playerInfo.x -= playerInfo.walkSpeed;
+                keyIsPressed = true;
             }
             else if (keyState[left] && keyState[up]) {
                 playerInfo.x -= playerInfo.walkSpeed;
                 playerInfo.y -= playerInfo.walkSpeed;
+                keyIsPressed = true;
             }
             else if (keyState[right] && keyState[up]) {
                 playerInfo.x += playerInfo.walkSpeed;
                 playerInfo.y -= playerInfo.walkSpeed;
+                keyIsPressed = true;
             }
             else if (keyState[right] && keyState[down]) {
                 playerInfo.x += playerInfo.walkSpeed;
                 playerInfo.y += playerInfo.walkSpeed;
+                keyIsPressed = true;
             }
-            else if (keyState[left])
+            else if (keyState[left]){
                 playerInfo.x -= playerInfo.walkSpeed;
-            else if (keyState[up])
+                if(!keyIsPressed){
+                    //xm = 6;
+                    ym = 1;
+                }
+                
+                keyIsPressed = true;
+            }
+            else if (keyState[up]){
                 playerInfo.y -= playerInfo.walkSpeed;
-            else if (keyState[right])
+                if(!keyIsPressed){
+                    //xm = 6;
+                    ym = 3;
+                }
+                
+                keyIsPressed = true;
+            }
+            else if (keyState[right]){
                 playerInfo.x += playerInfo.walkSpeed;
-            else if (keyState[down])
+                if(!keyIsPressed){
+                    //xm = 32*6;
+                    ym = 2;
+                }
+                
+                keyIsPressed = true;
+            }
+            else if (keyState[down]){
                 playerInfo.y += playerInfo.walkSpeed;
+                if(!keyIsPressed){
+                    //xm = 32*6;
+                    ym = 0;
+                }
+                
+                keyIsPressed = true;
+            }
         }
         var npcwalkup = 1, npcwalkdown = 0, npcwalkright = 1, npcwalkleft = 0;
 
@@ -326,8 +374,8 @@ function gameUpdate() {
                     npcs[i].x -= Math.round(Math.random()) * npcs[i].walkSpeed;
             }
         }
-        playerInfo.updatecharacter();
-
+        //playerInfo.updatecharacter();
+        drawingTool.drawCharacter();
         for (i = 0; i < npcs.length; i++) {
             npcs[i].updatecharacter();
             drawingTool.displayhealthonscreen(npcs[i].displayhealth, npcs[i].healthPoints, npcs[i].x, npcs[i].y);
@@ -351,6 +399,7 @@ function gameUpdate() {
         drawingTool.displayhealthonscreen(playerInfo.displayhealth, playerInfo.healthPoints, playerInfo.x, playerInfo.y);
         playerInfo.limit();
         importItemImages();
+        
         drawingTool.drawInterface();
         for (i = 0; i < 7; i++) {
             drawingTool.drawitem(playerInfo.inventoryitems[i], i);
@@ -363,6 +412,18 @@ function gameUpdate() {
 //         return true;
 //     return false;
 // }
+
+function updateCharacterSprite(tick){
+    if(tick % 32 == 0){
+        if(xm < 32*2){
+            xm = xm + 32;
+        }
+        else{
+            xm = 0;
+        }
+        spriteTick = 0;
+    }
+}
 
 function fight() {
     if (isfightning) {
@@ -433,8 +494,8 @@ function BuyHPotion() {
 }
 
 function importItemImages() {
-    var ctx = canvas.gameCanvas.getContext("2d");
     itemsImage.src = "https://raw.githubusercontent.com/WorldOfEngineering/JSRPG/master/resources/rpgItems.png";
+    playerImage.src = "https://raw.githubusercontent.com/WorldOfEngineering/JSRPG/master/resources/personajes-lanto.png"; //Source https://lanto.itch.io/free-characters by Lanto
 }
 
 // Events triggers ###########################################################################################
@@ -447,6 +508,7 @@ document.addEventListener('keydown',
 document.addEventListener('keyup',
     function (event) {
         keyState[event.keyCode || event.which] = false;
+        keyIsPressed = false;
     }, gameRunState
 );
 
@@ -505,7 +567,12 @@ function updateTable(currentHP, totalHp, playerAttack, playerDefence, playerexpe
     for (let i = 0; i < playerInfo.inventoryitems.length; i++) {
         var name = playerInfo.inventoryitems[i].Name;
         if (name != null) {
-            trinventory.cells[i].innerHTML = playerInfo.inventoryitems[i].Name + ": " + playerInfo.inventoryitems[i].Amount;
+            if(playerInfo.inventoryitems[i].stackable){
+                trinventory.cells[i].innerHTML = playerInfo.inventoryitems[i].Name + ": " + playerInfo.inventoryitems[i].Amount;
+            }
+            else{
+                trinventory.cells[i].innerHTML = playerInfo.inventoryitems[i].Name;;
+            }
             trinventory.cells[i].title = "Rarity: " + playerInfo.inventoryitems[i].Rarity +
                 "\nAttack bonus: " + playerInfo.inventoryitems[i].Attack +
                 "\nDefence bonus: " + playerInfo.inventoryitems[i].Defence +
