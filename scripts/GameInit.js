@@ -41,7 +41,7 @@ function loadGame() {
 
 function runGame() {
     var loadedItems = "";
-    fetch('https://worldofengineering.github.io/JSRPG/resources/GameJSON.json').then(function (Response) {
+    fetch('https://raw.githubusercontent.com/WorldOfEngineering/JSRPG/master/resources/GameJSON.json').then(function (Response) {
         return Response.json();
     }).then(function (json) {
         // var item1 = json.Equipment.helm;
@@ -94,14 +94,16 @@ function drawing() {
     }
 
     this.drawitem = function(item, index) {
-        var x = canvas.gameCanvas.width / 4;
-        var y = canvas.gameCanvas.height - height;
-        var ctx = canvas.context;
-        ctx.drawImage(itemsImage, 0, 0, 16, 16, x*item.multiplierx, y*item.multipliery, 64, 64);
-        if(item.stackable == 1 && item != null){
-            ctx.font = "25px Georgia";
-            ctx.fillStyle = "white";
-            ctx.fillText(item.Amount, x*(index+1) + 4, y + 19);
+        if(item != null){
+            var x = canvas.gameCanvas.width / 4;
+            var y = canvas.gameCanvas.height - height;
+            var ctx = canvas.context;
+            ctx.drawImage(itemsImage, 16*item.multiplierx, 16*item.multipliery, 16, 16, x + (64*index) + 15, y + 7, 64, 64);
+            if(item.stackable == 1){
+                ctx.font = "20px Georgia";
+                ctx.fillStyle = "white";
+                ctx.fillText(item.Amount, x+(64*index) + 8, y + 23);
+            }
         }
         
     }
@@ -117,6 +119,20 @@ function gameEvents() {
                 playerInfo.experience += fightningNPC.experience;
 
                 npcs.splice(i, 1);
+                var getitemprobability = Math.random()*100;
+                if(getitemprobability > 90){
+                    //creates a rare item
+                    var values = [];
+                    playerInfo.inventoryitems.push(new Item())
+
+                }
+                else if(getitemprobability < 91 && getitemprobability > 60){
+                    //creates a magic item
+                }
+                else{
+                    //creates a normal item
+
+                }
                 isfightning = false;
             }
         }
@@ -126,21 +142,18 @@ function gameEvents() {
     }
 }
 
-function Item(itemStatsJSON) {
-    this.attack = itemStatsJSON.Attack;
-    this.defence = itemStatsJSON.Defence;
-    this.strength = itemStatsJSON.Strength;
-    this.Name = itemStatsJSON.Name;
-    this.lvlreq = itemStatsJSON.LevelRequirement;
-    this.multiplier = itemStatsJSON.multiplier;
-}
-
-function playerItems(items) {
-    this.helm = new Item(items[0]);
-    this.chest = new Item(items[1]);
-    this.pants = new Item(items[2]);
-    this.weapon = new Item(items[3]);
-    this.offhand = new Item(items[4]);
+function Item(Rarity, LevelRequirement, Name, Attack, Strength, Defence, multiplierx, multipliery, Amount, stackable, Effect) {
+    this.Rarity = Rarity;
+    this.lvlreq = LevelRequirement;
+    this.Name = Name;
+    this.attack = Attack;
+    this.strength = Strength;
+    this.defence = Defence;
+    this.multiplierx = multiplierx;
+    this.multipliery = multipliery;
+    this.Amount = Amount;
+    this.stackable = stackable;
+    this.effect = Effect;
 }
 
 function playerInventory(items){
@@ -157,7 +170,6 @@ function character(type, x, y, width, height, experience, healthPoints, equipmen
     this.inventory = inventory;
 
     if (type == "Player") {
-        // this.equipment = new playerItems(equipment);
         this.attackPower = attack;
         this.defencePower = defence;
         this.strengthPower = strength;
@@ -171,11 +183,11 @@ function character(type, x, y, width, height, experience, healthPoints, equipmen
         }
         this.inventoryitems = [];
         for(i = 0; i < inventory.length; i++){
-            this.inventoryitems.push(inventory[i]);
+            this.inventoryitems.push(new Item(inventory[i].Rarity, inventory[i].LevelRequirement, inventory[i].Name, inventory[i].Attack, inventory[i].Strength, inventory[i].Defence, inventory[i].multiplierx, inventory[i].multipliery, inventory[i].Amount, inventory[i].stackable, inventory[i].Effect));
         }
         this.equipmentitems = []
         for(i = 0; i < equipment.length; i++){
-            this.equipmentitems.push(equipment[i]);
+            this.equipmentitems.push(new Item(equipment[i].Rarity, equipment[i].LevelRequirement, equipment[i].Name, equipment[i].Attack, equipment[i].Strength, equipment[i].Defence, equipment[i].multiplierx, equipment[i].multipliery, equipment[i].Amount, equipment[i].stackable, equipment[i].Effect));
         }
         
     }
@@ -330,7 +342,7 @@ function gameUpdate() {
         playerInfo.limit();
         importItemImages();
         drawingTool.drawInterface();
-        for(i = 0; i < 5; i++){
+        for(i = 0; i < 7; i++){
             drawingTool.drawitem(playerInfo.inventoryitems[i], i);
         }
     }
@@ -396,10 +408,17 @@ function generateNPC() {
 }
 
 function BuyHPotion(){
+    var exist = false;
     for(i = 0; i <= playerInfo.inventoryitems.length; i++){
-        if(playerInfo.inventoryitems[i].Name == "Health Potion"){
+        if(playerInfo.inventoryitems[i] != null && playerInfo.inventoryitems[i].Name == "Health Potion"){
             playerInfo.inventoryitems[i].Amount++;
+            exist = true;
+            break;
         }
+    }
+    if(!exist && playerInfo.inventoryitems.length < 10){
+        healthPoints = []
+        playerInfo.inventoryitems.unshift(new Item("Normal", null, "Health Potion", null, null, null, 0, 0, 1, 1, "Heals the user."));
     }
 }
 
@@ -412,6 +431,7 @@ function importItemImages() {
 document.addEventListener('keydown',
     function (event) {
         keyState[event.keyCode || event.which] = true;
+        useitem(event.which);
     }, gameRunState);
 
 document.addEventListener('keyup',
@@ -476,9 +496,11 @@ function updateTable(currentHP, totalHp, playerAttack, playerDefence, playerexpe
         var name = playerInfo.inventoryitems[i].Name;
         if(name != null){
             trinventory.cells[i].innerHTML = playerInfo.inventoryitems[i].Name + ": " + playerInfo.inventoryitems[i].Amount;
-            trinventory.cells[i].title = "Attack bonus: " + playerInfo.inventoryitems[i].Attack +
+            trinventory.cells[i].title = "Rarity: " + playerInfo.inventoryitems[i].Rarity +
+            "\nAttack bonus: " + playerInfo.inventoryitems[i].Attack +
             "\nDefence bonus: " + playerInfo.inventoryitems[i].Defence +
-            "\nStrength bonus: " + playerInfo.inventoryitems[i].Strength;
+            "\nStrength bonus: " + playerInfo.inventoryitems[i].Strength + 
+            "\nEffect: " + playerInfo.inventoryitems[i].Effect;
         }
         else{
             trinventory.cells[i].innerHTML = "&nbsp;";
@@ -489,9 +511,32 @@ function updateTable(currentHP, totalHp, playerAttack, playerDefence, playerexpe
     for(let i = 0; i < playerInfo.equipmentitems.length; i++){
         if(playerInfo.equipmentitems[i].Name != null){
             trequipment.cells[i].innerHTML = playerInfo.equipmentitems[i].Name;
-            trequipment.cells[i].title = "Attack bonus: " + playerInfo.equipmentitems[i].Attack +
+            trequipment.cells[i].title = "Rarity: " + playerInfo.equipmentitems[i].Rarity +
+            "\nAttack bonus: " + playerInfo.equipmentitems[i].Attack +
             "\nDefence bonus: " + playerInfo.equipmentitems[i].Defence +
-            "\nStrength bonus: " + playerInfo.equipmentitems[i].Strength;
+            "\nStrength bonus: " + playerInfo.equipmentitems[i].Strength + 
+            "\nEffect: " + playerInfo.equipmentitems[i].Effect;
         }
+    }
+}
+
+function useitem(buttonclick){
+    switch (buttonclick){
+        case 49:
+            if(playerInfo.inventoryitems.length > 0 && playerInfo.healthPoints < 100){
+                if(playerInfo.inventoryitems[0].Amount > 1){
+                    playerInfo.inventoryitems[0].Amount -= 1;
+                }
+                else {
+                    var i = playerInfo.inventoryitems.indexOf(playerInfo.inventoryitems[0]);
+                    playerInfo.inventoryitems.splice(i, 1);
+                }
+                playerInfo.healthPoints += 20;
+                if(playerInfo.healthPoints > playerInfo.displayhealth)
+                {
+                    playerInfo.healthPoints = playerInfo.displayhealth;
+                }
+            }
+            
     }
 }
